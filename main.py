@@ -22,6 +22,8 @@ maus_klick = pygame.mouse.get_pressed()
 pixel_font = pygame.font.Font("fonts/PixeloidSans.ttf", 30)
 
 case_val = 1
+enemy_count = 1
+
 
 background = pygame.image.load("graphics/tower_lvl11.png").convert_alpha()
 
@@ -117,6 +119,10 @@ while runtime:
     pressed = pygame.key.get_pressed()
     if pressed[pygame.K_SPACE]:
         runtime = False
+    if pressed[pygame.K_w]:
+        while pressed[pygame.k_w]:
+            enemy_count += 1
+            enemy[enemy_count]
 
 
 
