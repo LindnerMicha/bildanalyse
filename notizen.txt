@@ -1,0 +1,48 @@
+class enemy:
+    def __init__(self, enemy_type, enemy_x, enemy_y, enemy_life, enemy_speed, case_val):
+        self.enemy_x = enemy_x
+        self.enemy_y = enemy_y
+        self.enemy_life = enemy_life
+        self.enemy_speed = enemy_speed
+        self.enemy_type = enemy_type
+        self.case_val = case_val
+
+    def blit(self):
+
+        enemy_lvl1 = pygame.image.load("graphics/monster_lvl1.png").convert_alpha()
+
+        if self.enemy_type == "enemy_l1":
+            screen.blit(enemy_lvl1, (self.enemy_x, self.enemy_y))
+            print(str(self.enemy_y) + " <-Y   X-> " + str(self.enemy_x))
+
+
+        match self.case_val:
+            case 1:
+                self.enemy_y += self.enemy_speed
+                print("Case 1")
+                if self.enemy_y >= 386:
+                    self.case_val += 1
+            case 2:
+                self.enemy_x += self.enemy_speed
+                print("Case 2")
+                if self.enemy_x >= 800:
+                    self.case_val += 1
+            case 3:
+                self.enemy_y += self.enemy_speed
+                print("Case 3")
+
+
+    def collide_wall(self):
+        lifes = 10
+        if enemy_x > 1920 or enemy_y > 1080:
+            lifes -= 1
+            print("lifes " + str(lifes) + " von 10 übrig")
+            return True
+
+
+enemy_img = pygame.image.load("graphics/monster_lvl1.png")
+enemy = []
+enemyX = []
+enemy_spawnX = 300
+enemyY = []
+enemy_spawnY = 300
