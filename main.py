@@ -74,15 +74,15 @@ def button(but_txt, but_x, but_y, but_laenge, but_hoehe, but_color_0, but_color_
     screen.blit(textGrund, textkasten)
 
 def userinterface():
-    pygame.draw.rect(screen, "Black", (1520, 0, 400, 1080))
-    button("BUY LVL1", 1570, 300, 80, 45, "Green", "Blue")
-    screen.blit(tower_img, (1550,150))
-    button("BUY LVL2", 1780, 300, 80, 45, "Green", "Blue")
-    screen.blit(tower_img, (1760, 150))
-    button("BUY LVL3", 1570, 550, 80, 45, "Green", "Blue")
-    screen.blit(tower_img, (1550, 400))
-    button("BUY LVL4", 1780, 550, 80, 45, "Green", "Blue")
-    screen.blit(tower_img, (1760, 400))
+    pygame.draw.rect(screen, "White", (1520, 0, 400, 1080))
+    button("BUY LVL1", 1570, 400, 80, 45, "Green", "Blue")
+    screen.blit(tower_img, (1550,250))
+    button("BUY LVL2", 1780, 400, 80, 45, "Green", "Blue")
+    screen.blit(tower_img, (1760, 250))
+    button("BUY LVL3", 1570, 650, 80, 45, "Green", "Blue")
+    screen.blit(tower_img, (1550, 500))
+    button("BUY LVL4", 1780, 650, 80, 45, "Green", "Blue")
+    screen.blit(tower_img, (1760, 500))
 
 def debug():
     print(str(ticker_sec) + "<-Ticker Sec  - EnNum -> " + str(enemy_num))
