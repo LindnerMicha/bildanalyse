@@ -12,6 +12,9 @@ tower_x = 0
 tower_y = 0
 tower_level = 1
 
+ticker = 0
+ticker_sec = 0
+enemy_spawn_sec = 1     # -> Sekunden
 
 # https://stackoverflow.com/questions/63523461/spawn-multiple-enemies-pygame
 
@@ -27,17 +30,11 @@ spawn_stop = False
 maus_pos = pygame.mouse.get_pos()
 maus_klick = pygame.mouse.get_pressed()
 
-pixel_font = pygame.font.Font("fonts/PixeloidSans.ttf", 30)
-
-case_val1 = 1
-case_val2 = 1
-case_val3 = 1
-case_val4 = 1
-case_val5 = 1
-len_array = 0
-count = 0
+pixel_font30 = pygame.font.Font("fonts/PixeloidSans.ttf", 30)
+pixel_font15 = pygame.font.Font("fonts/PixeloidSans.ttf", 15)
 
 background = pygame.image.load("graphics/tower_lvl11.png").convert_alpha()
+tower_img = pygame.image.load("graphics/tower.png").convert_alpha()
 
 class tower:
     def __init__(self, tower_x, tower_y, tower_level):
@@ -47,8 +44,8 @@ class tower:
 
 
 
-def textObjekt(text, pixel_font):
-    textFlaeche = pixel_font.render(text, True, (0, 0, 0))
+def textObjekt(text, pixel_font15):
+    textFlaeche = pixel_font15.render(text, True, (0, 0, 0))
     return textFlaeche, textFlaeche.get_rect()
 
 def button(but_txt, but_x, but_y, but_laenge, but_hoehe, but_color_0, but_color_1):
@@ -72,13 +69,24 @@ def button(but_txt, but_x, but_y, but_laenge, but_hoehe, but_color_0, but_color_
             maus_aktiv = False
     else:
         pygame.draw.rect(screen, but_color_0, (but_x, but_y, but_laenge, but_hoehe))
-    textGrund, textkasten = textObjekt(but_txt, pixel_font)
+    textGrund, textkasten = textObjekt(but_txt, pixel_font15)
     textkasten.center = ((but_x+(but_laenge/2)),(but_y+(but_hoehe/2)))
     screen.blit(textGrund, textkasten)
 
 def userinterface():
     pygame.draw.rect(screen, "Black", (1520, 0, 400, 1080))
+    button("BUY LVL1", 1570, 300, 80, 45, "Green", "Blue")
+    screen.blit(tower_img, (1550,150))
+    button("BUY LVL2", 1780, 300, 80, 45, "Green", "Blue")
+    screen.blit(tower_img, (1760, 150))
+    button("BUY LVL3", 1570, 550, 80, 45, "Green", "Blue")
+    screen.blit(tower_img, (1550, 400))
+    button("BUY LVL4", 1780, 550, 80, 45, "Green", "Blue")
+    screen.blit(tower_img, (1760, 400))
 
+def debug():
+    print(str(ticker_sec) + "<-Ticker Sec  - EnNum -> " + str(enemy_num))
+    print(maus_pos[0], maus_pos[1])
 
 runtime = True
 while runtime:
@@ -86,15 +94,26 @@ while runtime:
         if event.type == pygame.QUIT:
             runtime = False
 
-
+#region #Deffinitionen updaten
+    maus_pos = pygame.mouse.get_pos()
+    maus_klick = pygame.mouse.get_pressed()
     pressed = pygame.key.get_pressed()
+    #endregion
+
     if pressed[pygame.K_SPACE]:
         runtime = False
     if pressed[pygame.K_w]:
+        pass
+
+
+#region #enemy Spawn + Movement
+    if ticker > 40:
+        ticker_sec +=1
+        ticker = 0
+
+    if ticker_sec > enemy_spawn_sec:
         enemy_num += 1
-
-
-
+        ticker_sec =0
 
     for i in range(enemy_num):
         enemy.append(enemy_img)
@@ -103,13 +122,15 @@ while runtime:
 
     for i in range(enemy_num):
         enemyY[i] += 4
+#endregion
 
 
     screen.blit(background, (0,0))
     for i in range(enemy_num):
         screen.blit(enemy[i], (enemyX[i], enemyY[i]))
 
+
     userinterface()
     pygame.display.flip()
-
+    ticker += 1
     clock.tick(fps)
