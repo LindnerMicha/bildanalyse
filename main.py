@@ -55,14 +55,14 @@ def button(but_txt, but_x, but_y, but_laenge, but_hoehe, but_color_0, but_color_
         pygame.draw.rect(screen, but_color_1, (but_x, but_y, but_laenge, but_hoehe))
         if maus_klick[0] == 1 and maus_aktiv == False:
             maus_aktiv = True
-            if but_txt == "Start":
-                option = "Start"
-            elif but_txt == "Einstellungen":
-                option = "Einstellungen"
-            elif but_txt == "Credits":
-                option = "Credits"
-            elif but_txt == "Home":
-                option = "Home"
+            if but_txt == "BUY LVL1":
+                option = "buylvl1"
+            elif but_txt == "BUY LVL2":
+                option = "buylvl2"
+            elif but_txt == "BUY LVL3":
+                option = "buylvl3"
+            elif but_txt == "BUY LVL4":
+                option = "buylvl4"
             elif but_txt == "Exit":
                 sys.exit()
         if maus_klick[0] == 0:
@@ -75,15 +75,16 @@ def button(but_txt, but_x, but_y, but_laenge, but_hoehe, but_color_0, but_color_
 
 def userinterface():
     pygame.draw.rect(screen, "White", (1520, 0, 400, 1080))
-    button("BUY LVL1", 1570, 400, 80, 45, "Green", "Blue")
+    button("BUY LVL1", 1570, 400, 80, 45, "Green", "Grey")
     screen.blit(tower_img, (1550,250))
-    button("BUY LVL2", 1780, 400, 80, 45, "Green", "Blue")
+    button("BUY LVL2", 1780, 400, 80, 45, "Green", "Grey")
     screen.blit(tower_img, (1760, 250))
-    button("BUY LVL3", 1570, 650, 80, 45, "Green", "Blue")
+    button("BUY LVL3", 1570, 650, 80, 45, "Green", "Grey")
     screen.blit(tower_img, (1550, 500))
-    button("BUY LVL4", 1780, 650, 80, 45, "Green", "Blue")
+    button("BUY LVL4", 1780, 650, 80, 45, "Green", "Grey")
     screen.blit(tower_img, (1760, 500))
 
+    button("EXIT", 1780, 980, 80, 45, "Green", "Red")
 def debug():
     print(str(ticker_sec) + "<-Ticker Sec  - EnNum -> " + str(enemy_num))
     print(maus_pos[0], maus_pos[1])
