@@ -5,13 +5,17 @@ pygame.init()
 
 global maus_aktiv
 global option
+global setting_state
+global set_decider
 
-option = "Play"
+option = "Home"
 
 screen = pygame.display.set_mode([1920, 1080])
 pygame.display.set_caption("Tower Defense")
 clock = pygame.time.Clock()
 fps = 60
+fps_tick = 0
+
 
 tower_x = 0
 tower_y = 0
@@ -20,6 +24,9 @@ tower_level = 1
 ticker = 0
 ticker_sec = 0
 enemy_spawn_sec = 1     # -> Sekunden
+
+user_input = ""
+set_decider = ""
 
 # https://stackoverflow.com/questions/63523461/spawn-multiple-enemies-pygame
 
@@ -36,9 +43,11 @@ spawn_stop = False
 maus_pos = pygame.mouse.get_pos()
 maus_klick = pygame.mouse.get_pressed()
 
+pixel_font60 = pygame.font.Font("fonts/PixeloidSans.ttf", 60)
 pixel_font30 = pygame.font.Font("fonts/PixeloidSans.ttf", 30)
 pixel_font15 = pygame.font.Font("fonts/PixeloidSans.ttf", 15)
 sys_font15 = pygame.font.SysFont(None, 15)
+sys_font30 = pygame.font.SysFont(None, 30)
 
 background = pygame.image.load("graphics/tower_lvl11.png").convert_alpha()
 tower_img = pygame.image.load("graphics/tower.png").convert_alpha()
@@ -70,11 +79,30 @@ def button(but_txt, but_x, but_y, but_laenge, but_hoehe, but_color_0, but_color_
             option = but_txt
             if option == "Exit":
                 sys.exit()
+            elif but_txt == "Resume":
+                option = "Play"
         if maus_klick[0] == 0:
             maus_aktiv = False
     else:
         pygame.draw.rect(screen, but_color_0, (but_x, but_y, but_laenge, but_hoehe))
     textGrund, textkasten = textObjekt(but_txt, but_font)
+    textkasten.center = ((but_x+(but_laenge/2)),(but_y+(but_hoehe/2)))
+    screen.blit(textGrund, textkasten)
+
+def setting_button(set_state, but_x, but_y, but_laenge, but_hoehe, but_color_0, but_color_1, but_font):
+    global setting_state
+    global maus_aktiv
+    global set_decider
+    if maus_pos[0] > but_x and maus_pos[0] < but_x + but_laenge and maus_pos[1] > but_y and maus_pos[1] < but_y+but_hoehe:
+        pygame.draw.rect(screen, but_color_1, (but_x, but_y, but_laenge, but_hoehe))
+        if maus_klick[0] == 1 and maus_aktiv == False:
+            maus_aktiv = True
+            set_decider = set_state
+        if maus_klick[0] == 0:
+            maus_aktiv = False
+    else:
+        pygame.draw.rect(screen, but_color_0, (but_x, but_y, but_laenge, but_hoehe))
+    textGrund, textkasten = textObjekt(set_state, but_font)
     textkasten.center = ((but_x+(but_laenge/2)),(but_y+(but_hoehe/2)))
     screen.blit(textGrund, textkasten)
 
@@ -92,7 +120,25 @@ def userinterface():
     screen.blit(tower_img, (1760, 500))
 
     button("Home", 1570, 980, 80, 45, "Green", "Red", pixel_font15)
-    button("Exit", 1780, 980, 80, 45, "Green", "Red", pixel_font15)
+    button("Settings", 1680, 980, 80, 45, "Green", "Red", pixel_font15)
+    button("Exit", 1790, 980, 80, 45, "Green", "Red", pixel_font15)
+
+def slide_setting(slide_text, min_val, max_val, slide_x, slide_y):
+    global set_decider
+    draw_text(str(slide_text), pixel_font30, (0,0,0), screen, slide_x, slide_y)
+
+    rec_x = slide_x + 350
+    rec_y = slide_y
+    button("-", slide_x + 240, slide_y, 40, 40, (68, 212, 219), "Grey", sys_font30)
+    if set_decider == "-":
+        rec_x -= 35
+    elif set_decider == "+":
+        rec_x += 35
+    draw_text(str(min_val), pixel_font30, (0, 0, 0), screen, slide_x + 300,slide_y)
+    pygame.draw.rect(screen, (0,0,0), (slide_x + 350, rec_y+10, 320, 15))
+    pygame.draw.rect(screen, (0,0,0), (rec_x, rec_y, 35, 35))
+    draw_text(str(max_val), pixel_font30, (0, 0, 0), screen, slide_x + 700,slide_y)
+    setting_button("+", slide_x + 750, slide_y, 40, 40, (68, 212, 219), "Grey", sys_font30)
 
 
 def homescreen():
@@ -100,17 +146,24 @@ def homescreen():
     pygame.draw.rect(screen, (48, 79, 84), (0, 0, 350, 1080))
 
     button("Play", 50, 100, 200, 60, (31, 64, 69), "Green", pixel_font30)
-    button("Play", 50, 100, 200, 60, (31, 64, 69), "Green", pixel_font30)
+    button("Settings", 50, 300, 200, 60, (31, 64, 69), "Green", pixel_font30)
+    button("Exit", 50, 500, 200, 60, (31, 64, 69), "Green", pixel_font30)
 
+def settings():
+    screen.blit(home_background, (0, 0))
+    pygame.draw.rect(screen, (48, 79, 84), (510, 0, 900, 1080))
+    draw_text("Settings", pixel_font60, (0, 0, 0), screen, 860, 0)
 
+    button("Home", 755, 980, 110, 45, (68, 212, 219), "Green", pixel_font30)
+    button("Resume", 1055, 980, 140, 45, (68, 212, 219), "Green", pixel_font30)
 
+def show_fps():
+    fps_tick = str(int(clock.get_fps()))
+    draw_text(str(fps_tick), sys_font30, "Red", screen, 0, 0)
 
 def debug():
     print(str(ticker_sec) + "<-Ticker Sec  - EnNum -> " + str(enemy_num))
     print(maus_pos[0], maus_pos[1])
-
-
-
 
 
 
@@ -152,8 +205,6 @@ while runtime:
 
 
 
-
-
     #draw_text("TestTestTest", sys_font15, "Red", screen, 100, 100)
     if option == "Home":
         homescreen()
@@ -164,11 +215,18 @@ while runtime:
         enemy_spawnX = 300
         ticker_sec = 0
         ticker = 0
+
     elif option == "Play":
         userinterface()
         for i in range(enemy_num):
             screen.blit(enemy[i], (enemyX[i], enemyY[i]))
+    elif option == "Settings":
+        settings()
+        slide_setting("Test", 0, 10, 580, 300)
 
+    print(set_decider)
+
+    show_fps()
     pygame.display.flip()
     ticker += 1
     clock.tick(fps)

@@ -56,3 +56,21 @@ enemy_spawnY = 300
                 option = "buylvl4"
             elif but_txt == "Home":
                 option = "Home"
+
+
+
+enemy_spawnY, enemy_spawnX, ticker_sec, ticker
+
+
+def draw_text(text, sys_font15, color, screen, x , y):
+    textobj = sys_font15.render(text, 1, color)
+    textrect = textobj.get_rect()
+    textrect.topleft = (x, y)
+    screen.blit(textobj, textrect)
+
+
+def slide_setting(slide_text, max_val, min_val, slide_x, slide_y):
+    draw_text(str(slide_text), pixel_font30, (0,0,0), screen, slide_x, slide_y)
+    draw_text(str(min_val), pixel_font30, (0, 0, 0), screen, slide_x + 300,slide_y)
+    pygame.draw.rect(screen, (0,0,0), 50, 50)
+    draw_text(str(max_val), pixel_font30, (0, 0, 0), screen, slide_x + 700,slide_y)
