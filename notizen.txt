@@ -46,3 +46,13 @@ enemyX = []
 enemy_spawnX = 300
 enemyY = []
 enemy_spawnY = 300
+
+
+            elif but_txt == "BUY LVL2":
+                option = "buylvl2"
+            elif but_txt == "BUY LVL3":
+                option = "buylvl3"
+            elif but_txt == "BUY LVL4":
+                option = "buylvl4"
+            elif but_txt == "Home":
+                option = "Home"
