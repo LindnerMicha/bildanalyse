@@ -135,13 +135,18 @@ def userinterface():
 
 def slide_setting(slide_text, min_val, max_val, slide_x, slide_y):
 
-    draw_text(str(slide_text), pixel_font30, (0,0,0), screen, slide_x, slide_y)
-    setting_button("-", slide_x + 240, slide_y, 40, 40, (68, 212, 219), "Grey", sys_font30)
-    draw_text(str(min_val), pixel_font30, (0, 0, 0), screen, slide_x + 300,slide_y)
-    pygame.draw.rect(screen, (0, 0, 0), (slide_x + 350, rec_y+10, 320, 15))
-    draw_text(str(max_val), pixel_font30, (0, 0, 0), screen, slide_x + 700,slide_y)
-    setting_button("+", slide_x + 750, slide_y, 40, 40, (68, 212, 219), "Grey", sys_font30)
 
+    setting_button("+", slide_x + 750, slide_y, 40, 40, (68, 212, 219), "Grey", sys_font30)
+    setting_button("-", slide_x + 240, slide_y, 40, 40, (68, 212, 219), "Grey", sys_font30)
+    draw_text(str(slide_text), pixel_font30, (0,0,0), screen, slide_x, slide_y)
+    draw_text(str(min_val), pixel_font30, (0, 0, 0), screen, slide_x + 300,slide_y)
+    draw_text(str(max_val), pixel_font30, (0, 0, 0), screen, slide_x + 700,slide_y)
+
+
+
+
+def setting_slider(slide_text, min_val, max_val, slide_x, slide_y):
+    pass
 
 def homescreen():
     screen.blit(home_background, (0, 0))
@@ -223,8 +228,10 @@ while runtime:
         for i in range(enemy_num):
             screen.blit(enemy[i], (enemyX[i], enemyY[i]))
 
+
     elif option == "Settings":
         settings()
+        pygame.draw.rect(screen, (0, 0, 0), (930, rec_y+10, 320, 15))
         slide_setting("Test", 0, 10, 580, 300)
         if maus_klick[0] == 1 and maus_aktiv == False:
             maus_aktiv = True
